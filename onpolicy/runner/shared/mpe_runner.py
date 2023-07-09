@@ -5,8 +5,10 @@ from onpolicy.runner.shared.base_runner import Runner
 import wandb
 import imageio
 
+
 def _t2n(x):
     return x.detach().cpu().numpy()
+
 
 class MPERunner(Runner):
     """Runner class to perform training, evaluation. and data collection for the MPEs. See parent class for details."""
@@ -14,7 +16,7 @@ class MPERunner(Runner):
         super(MPERunner, self).__init__(config)
 
     def run(self):
-        self.warmup()   
+        self.warmup()
 
         start = time.time()
         episodes = int(self.num_env_steps) // self.episode_length // self.n_rollout_threads
@@ -81,6 +83,8 @@ class MPERunner(Runner):
     def warmup(self):
         # reset env
         obs = self.envs.reset()
+
+        print(obs.shape, "!!!")
 
         # replay buffer
         if self.use_centralized_V:
